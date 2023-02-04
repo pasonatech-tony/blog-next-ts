@@ -1,5 +1,5 @@
 ---
-title: What is Contentlayer?
+title: What is hat?
 date: 2022-02-22
 ---
 
