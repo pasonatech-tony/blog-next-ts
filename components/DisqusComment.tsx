@@ -2,7 +2,7 @@ import { DiscussionEmbed } from "disqus-react";
 const DisqusComment = ({ post }) => {
   const disqusShortname = "thulinhred";
   const disqusConfig = {
-    url: "http://localhost:3000/posts/${post._id}",
+    url: "https://blog-next-ts-hazel.vercel.app/posts/${post._id}",
     identifier: post._id, // Single post id
     title: post.title, // Single post title
     // language: "ja",
