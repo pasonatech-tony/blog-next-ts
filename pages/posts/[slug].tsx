@@ -37,7 +37,11 @@ const PostLayout = ({ post }: { post: Post }) => {
           </time>
           <h1>{post.title}</h1>
           <span className="text-xs text-gray-600 mb-1">
-            <ViewCounter slug={post._id.replace(".md", "")} blogPage={true} />
+            <ViewCounter
+              slug={post._id.replace(".md", "")}
+              blogPage={true}
+              update={true}
+            />
           </span>
         </div>
         <div dangerouslySetInnerHTML={{ __html: post.body.html }} />

@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
 import useSWR from "swr";
-import type { SWRConfiguration } from "swr";
-
-const config: SWRConfiguration = {
-  fallbackData: "fallback",
-  revalidateOnMount: true,
-  refreshInterval: 0,
-};
 
 async function fetcher(url) {
   const res = await fetch(url);
@@ -14,27 +7,39 @@ async function fetcher(url) {
   return data;
 }
 
-const API_URL = process.env.API_URL || "https://blog-next-ts-hazel.vercel.app";
+const API_URL = process.env.API_URL || "http://localhost:3000";
 
-export default function ViewCounter({ slug, blogPage = false }) {
-  const { data, error } = useSWR(
-    `${API_URL}/api/views/${slug}`,
-    fetcher,
-    config
-  );
+export default function ViewCounter({
+  slug,
+  blogPage = false,
+  update = false,
+}) {
+  const { data } = useSWR(`${API_URL}/api/views/${slug}`, fetcher);
   const [hasMounted, setHasMounted] = useState(false);
-  const [hasSentPost, setHasSentPost] = useState(false);
-  const views = parseInt(data?.total);
+  const views = data?.total;
 
   useEffect(() => {
-    setHasMounted(true);
-    if (!hasSentPost && blogPage) {
-      setHasSentPost(true);
+    if (!hasMounted && blogPage && update) {
+      setHasMounted(true);
       fetch(`${API_URL}/api/views/${slug}`, {
         method: "POST",
-      });
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(res.statusText);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  }, [slug, hasSentPost, blogPage]);
+  }, [slug, blogPage, hasMounted, update]);
 
-  return <div>{views > 0 ? views.toLocaleString() : "–––"} views</div>;
+  console.log(views, "---- views");
+
+  return <div>{views} views</div>;
 }
