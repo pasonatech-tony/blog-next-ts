@@ -7,7 +7,7 @@ async function fetcher(url) {
   return data;
 }
 
-const API_URL = process.env.API_URL || "http://localhost:3000";
+const API_URL = process.env.API_URL || "https://blog-next-ts-hazel.vercel.app";
 
 export default function ViewCounter({
   slug,
@@ -17,6 +17,7 @@ export default function ViewCounter({
   const { data } = useSWR(`${API_URL}/api/views/${slug}`, fetcher);
   const [hasMounted, setHasMounted] = useState(false);
   const views = data?.total;
+  console.log(`${API_URL}/api/views/${slug}`);
 
   useEffect(() => {
     if (!hasMounted && blogPage && update) {
