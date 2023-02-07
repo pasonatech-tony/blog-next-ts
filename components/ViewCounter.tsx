@@ -15,19 +15,19 @@ export default function ViewCounter({
   update = false,
 }) {
   const { data } = useSWR(`${API_URL}/api/views/${slug}`, fetcher);
-  const [hasMounted, setHasMounted] = useState(false);
   const views = data?.total;
   console.log("host", `${API_URL}/api/views/${slug}`);
 
   useEffect(() => {
-    const registerView = () =>
-      fetch(`/api/views/${slug}`, {
-        method: "POST",
-      });
+    if (update && blogPage) {
+      const registerView = () =>
+        fetch(`/api/views/${slug}`, {
+          method: "POST",
+        });
 
-    registerView();
-
+      registerView();
+    }
     console.log(views, "---- views");
-  }, [slug]);
+  }, [slug, update, blogPage]);
   return <div>{views} views</div>;
 }
