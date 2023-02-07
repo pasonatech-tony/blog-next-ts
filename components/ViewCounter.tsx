@@ -18,16 +18,17 @@ export default function ViewCounter({
   const views = data?.total;
   console.log("host", `${API_URL}/api/views/${slug}`);
 
-  useEffect(() => {
-    if (update && blogPage) {
-      const registerView = () =>
-        fetch(`/api/views/${slug}`, {
-          method: "POST",
-        });
+  // useEffect(() => {
+  //   if (update && blogPage) {
+  //     console.log("")
+  //     const registerView = () =>
+  //       fetch(`/api/views/${slug}`, {
+  //         method: "POST",
+  //       });
 
-      registerView();
-    }
-    console.log(views, "---- views");
-  }, [slug, update, blogPage]);
+  //     registerView();
+  //   }
+  //   console.log(views, "---- views");
+  // }, [slug, update, blogPage]);
   return <div>{views} views</div>;
 }
