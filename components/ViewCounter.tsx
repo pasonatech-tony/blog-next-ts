@@ -20,27 +20,14 @@ export default function ViewCounter({
   console.log("host", `${API_URL}/api/views/${slug}`);
 
   useEffect(() => {
-    if (!hasMounted && blogPage && update) {
-      setHasMounted(true);
-      fetch(`${API_URL}/api/views/${slug}`, {
+    const registerView = () =>
+      fetch(`/api/views/${slug}`, {
         method: "POST",
-      })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(res.statusText);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [slug, blogPage, hasMounted, update]);
+      });
 
-  console.log(views, "---- views");
+    registerView();
 
+    console.log(views, "---- views");
+  }, [slug]);
   return <div>{views} views</div>;
 }
